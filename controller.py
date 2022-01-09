@@ -27,8 +27,7 @@ class Document(BaseModel):
 
 @app.get('/')
 def describe():
-    return 
-    {
+    return {
         'Hello' : "I am an API which detects Vulgar Words in a given text"
     }
 
