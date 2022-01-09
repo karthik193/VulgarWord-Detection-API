@@ -47,7 +47,7 @@ def detectVulgarWords(text : str ):
         return None 
     
     return {
-        'there' : detect(text), 
+        'toxic' : detect(text), 
         'ranges' : []
     }
 
