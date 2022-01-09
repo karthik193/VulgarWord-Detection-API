@@ -1,2 +1,2 @@
 # VulgarWord-Detection-API
-An API for detecting vulagar words in a given sentence.
+An API for detecting vulgar words in a given sentence.
