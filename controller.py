@@ -7,6 +7,8 @@ from typing import List, Optional
 
 from fastapi import FastAPI 
 
+from fastapi.middleware.cors import CORSMiddleware 
+
 from pydantic import BaseModel
 
 from services import detect
@@ -19,11 +21,27 @@ from services import detect
 app  = FastAPI()
 
 
+#adding cors middleware for authentication 
+
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins =['*'], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+#end CORS 
+
 class Document(BaseModel):
-    title : str 
+    title : Optional[str] = None  
     description : Optional[str] = None  
     content : str
-    hashtags : List[str]
+    hashtags : Optional[List[str]] = None
+
+
+class PlainText(BaseModel): 
+    text : str  
 
 @app.get('/')
 def describe():
@@ -40,13 +58,13 @@ def TrainModel(id : str, text : str ):
      
     return "model trained"
 
-@app.post('/detectWords/')
-def detectVulgarWords(text : str ):
-    if(text == None): 
+@app.post('/detectWords')
+def detectVulgarWords(pt : PlainText):
+    if(pt == None or pt.text == None): 
         return None 
     
     return {
-        'toxic' : detect(text), 
+        'toxic' : detect(pt.text), 
         'ranges' : []
     }
 
